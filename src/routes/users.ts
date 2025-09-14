@@ -3,6 +3,14 @@ import db from '../libs/db';
 import { User } from '../types';
 import { deleteUserLimiter } from '../middleware';
 
+
+// Parte de codigo vulnerable
+const express = require('express');
+const app = express();
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'P4ssw0rd123!'; // hardcodeado: peligroso
+
+
 const router = Router();
 
 /**
@@ -23,6 +31,7 @@ router.get('/', (req: Request, res: Response) => {
 /**
  * GET /users/:id - Get a user by ID
  */
+/*
 router.get('/:id', (req: Request, res: Response) => {
   try {
     const user = db
@@ -42,7 +51,7 @@ router.get('/:id', (req: Request, res: Response) => {
       error: 'Failed to fetch user',
     });
   }
-});
+});  */
 
 /**
  * POST /users - Create a new user
@@ -162,5 +171,33 @@ router.delete('/:id', deleteUserLimiter, (req: Request, res: Response) => {
     });
   }
 });
+
+
+
+// Parte de codigo vulnerable
+router.get('/:id', (req: Request, res: Response) => {
+  try {
+    // VULNERABLE: concatena directamente el parámetro en la query
+    const user = db
+      .prepare(`SELECT * FROM users WHERE id = '${req.params.id}'`)
+      .get();
+
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found',
+      });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({
+      error: 'Failed to fetch user',
+    });
+  }
+});
+
+
+
 
 export default router;
