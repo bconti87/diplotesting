@@ -166,17 +166,3 @@ router.delete('/:id', deleteUserLimiter, (req: Request, res: Response) => {
 
 export default router;
 
-
-
-import express from "express"
-
-
-
-
-router.get("/:id",(req,res)=>{
-     console.log(   "User id is",req.params.id ) // <-- espaciado mal, comillas dobles vs simples
-    res.send(  { userId:req.params.id  } )  // <-- espaciado y formato incorrecto
-})
-
-
-
