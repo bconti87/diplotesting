@@ -8,15 +8,15 @@ const router = Router();
 /**
  * GET /users - List all users
  */
-router.get('/', (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
   try {
-    const users = db.prepare('SELECT * FROM users').all();
-    res.json(users);
+    const users = db.prepare('SELECT * FROM users').all()
+    res.json(users)
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error("Error fetching users:", error);
     res.status(500).json({
-      error: 'Failed to fetch users',
-    });
+      error: "Failed to fetch users",
+    })
   }
 });
 
@@ -43,7 +43,7 @@ router.get('/:id', (req: Request, res: Response) => {
       error: 'Failed to fetch user',
     });
   }
-});  
+});
 
 /**
  * POST /users - Create a new user
