@@ -24,6 +24,7 @@ router.get('/', (req: Request, res: Response) => {
 /**
  * GET /users/:id - Get a user by ID
  */
+
 router.get('/:id', (req: Request, res: Response) => {
   try {
     const user = db
@@ -165,3 +166,4 @@ router.delete('/:id', deleteUserLimiter, (req: Request, res: Response) => {
 });
 
 export default router;
+
